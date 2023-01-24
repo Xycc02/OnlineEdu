@@ -3,6 +3,7 @@ package com.xuyuchao.security.security;
 import io.jsonwebtoken.CompressionCodecs;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -15,6 +16,7 @@ import java.util.Date;
  * @author qy
  * @since 2019-11-08
  */
+@Slf4j
 @Component
 public class TokenManager {
 
@@ -25,6 +27,7 @@ public class TokenManager {
         String token = Jwts.builder().setSubject(username)
                 .setExpiration(new Date(System.currentTimeMillis() + tokenExpiration))
                 .signWith(SignatureAlgorithm.HS512, tokenSignKey).compressWith(CompressionCodecs.GZIP).compact();
+        log.debug(">>> JWT生成Token:{} <<<",token);
         return token;
     }
 
